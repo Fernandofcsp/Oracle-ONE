@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encriptador de texto</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header>
+      <h1>
+        Encriptador de texto con Javascript
+      </h1>
+    </header>
+
+    <main>
+      <div id="container">
+        <div class="columns">
+          <div class="column" id="left-column">
+            <textarea
+              id="input"
+              placeholder="Ingrese su mensaje"
+              style="font-size: 20px"
+            ></textarea>
+          </div>
+          <div class="column" id="right-column">
+            <textarea
+              id="output"
+              placeholder="Ningún mensaje fue encontrado"
+              style="font-size: 20px"
+              disabled
+            ></textarea>
+          </div>
+        </div>
+        <div class="buttons-row">
+          <div class="button-column left-buttons">
+            <button onclick="cifrar()">Cifrar</button>
+            <button onclick="descifrar()">Descifrar</button>
+          </div>
+          <div class="button-column right-buttons">
+            <button onclick="copiar()">Copiar</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>© FernandoSP - <span id="year">2024</span></p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
