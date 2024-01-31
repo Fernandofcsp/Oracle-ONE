@@ -1,4 +1,23 @@
-// Función para cifrar un mensaje
+// SweetAlert
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  customClass: {
+    popup: "!bg-[#fafbff] hover:opacity-50",
+    timerProgressBar: "!bg-[#0a3871]",
+  },
+  showConfirmButton: false,
+  timer: 2500,
+  timerProgressBar: true,
+});
+
+// Función para mostrar alertas
+function showAlert(title, icon) {
+  Toast.fire({
+    icon: icon,
+    title: title,
+  });
+}
 function cifrarMensaje(mensaje) {
   mensaje = mensaje.replace(/e/g, "enter");
   mensaje = mensaje.replace(/i/g, "imes");
@@ -8,7 +27,6 @@ function cifrarMensaje(mensaje) {
   return mensaje;
 }
 
-// Función para descifrar un mensaje cifrado
 function descifrarMensaje(mensajeCifrado) {
   mensajeCifrado = mensajeCifrado.replace(/imes/g, "i");
   mensajeCifrado = mensajeCifrado.replace(/ai/g, "a");
@@ -18,68 +36,74 @@ function descifrarMensaje(mensajeCifrado) {
   return mensajeCifrado;
 }
 
-// Función para cifrar el mensaje de entrada
 function cifrar() {
   let mensaje = document.getElementById("input").value;
   let mensajeCifrado = cifrarMensaje(mensaje);
+  if (mensaje == ""){
+    showAlert("No ha ingresado ningun texto", "error");
+  }
   document.getElementById("output").value = mensajeCifrado;
 }
 
-// Función para descifrar el mensaje cifrado de entrada
 function descifrar() {
   let mensajeCifrado = document.getElementById("input").value;
   let mensaje = descifrarMensaje(mensajeCifrado);
+  if (mensaje == ""){
+    showAlert("No ha ingresado ningun texto", "error");
+  }
   document.getElementById("output").value = mensaje;
 }
 
-// Función para copiar el mensaje
 function copiar() {
-  // Seleccionar el texto que deseamos copiar
   let texto = document.getElementById("output").value;
-
-  // Crear un elemento de texto temporal
   let inputTemp = document.createElement("textarea");
-
-  // Asignar el texto que queremos copiar al elemento temporal
   inputTemp.value = texto;
-
-  // Agregar el elemento temporal al DOM
   document.body.appendChild(inputTemp);
-
-  // Seleccionar el texto en el elemento temporal
   inputTemp.select();
-  inputTemp.setSelectionRange(0, 99999); /* Para dispositivos móviles */
-
-  // Copiar el texto seleccionado al portapapeles
+  inputTemp.setSelectionRange(0, 99999);
   document.execCommand("copy");
-
-  // Eliminar el elemento temporal
   document.body.removeChild(inputTemp);
-
-  // Alerta de copia exitosa
-  alert("Texto copiado al portapapeles: " + texto);
+  if (texto != "") {
+    showAlert("Texto copiado al portapapeles: " + texto, "info");
+  } else {
+    showAlert("No hay texto para copiar", "error");
+  }
 }
 
-// Obtener el elemento textarea
+function mover() {
+  let texto = document.getElementById("output").value;
+  if (texto == "") {
+    showAlert("No hay texto para mover", "error");
+    return;
+  } else {
+    textarea.value = texto;
+    document.getElementById("output").value = "";
+    showAlert("El texto ha sido movido", "success");
+  }
+}
+
+function borrar() {
+  let texto = document.getElementById("output").value;
+  if (textarea.value != "" || texto != "") {
+    textarea.value = "";
+    document.getElementById("output").value = "";
+    showAlert("Los campos han sido borrados", "success");
+  } else {
+    showAlert("No hay datos para borrar", "error");
+  }
+}
+
 let textarea = document.getElementById("input");
-// Agregar un event listener para el evento keydown
+
 textarea.addEventListener("input", function (event) {
-  // Obtener el código de la tecla presionada
   let key = textarea.value;
-  // Permitir caracteres alfabéticos, numéricos y algunos caracteres especiales como el espacio, el guión y el punto
   let permitidos = /^[a-zA-Z0-9\s\-.]*$/;
-  // Verificar si la tecla presionada está permitida
   if (!permitidos.test(key)) {
-    // Si la tecla no está permitida, prevenir la acción por defecto (no agregar el carácter al textarea)
     textarea.value = key.replace(/[^\w\s\-.]/gi, "");
   }
 });
-// Agregar un listener para el evento input (cuando el usuario escribe algo) lo vuelva minusculas
 textarea.addEventListener("input", function () {
-  // Obtener el texto actual del textarea
   let texto = textarea.value;
-  // Convertir todo el texto a minúsculas
   texto = texto.toLowerCase();
-  // Actualizar el valor del textarea con el texto en minúsculas
   textarea.value = texto;
 });
